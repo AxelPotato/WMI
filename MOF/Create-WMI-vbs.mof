@@ -1,0 +1,24 @@
+#PRAGMA NAMESPACE ("\\\\.\\root\\subscription")
+
+instance of ActiveScriptEventConsumer as $Cons
+{
+    Name = "BugSecConsumer";
+    ScriptingEngine = "VBScript";
+    ScriptText = "Dim fso, MyFile : Set fso = CreateObject(\"Scripting.FileSystemObject\") : Set MyFile = fso.CreateTextFile(\"c:\\WMI-Mof-vbs.txt\", True) : MyFile.WriteLine(\"test\") : MyFile.Close";
+};
+
+instance of __EventFilter as $Filt
+{
+    Name = "BugSecFilter";
+    EventNamespace = "root\\cimv2";
+    Query ="SELECT * FROM __InstanceCreationEvent Within 3"
+            "Where TargetInstance Isa \"Win32_Process\" "
+            "And Targetinstance.Name = \"chrome.exe\" ";
+    QueryLanguage = "WQL";
+};
+
+instance of __FilterToConsumerBinding
+{ 
+     Filter = $Filt;
+     Consumer = $Cons;
+};

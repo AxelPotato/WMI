@@ -1,0 +1,24 @@
+#PRAGMA NAMESPACE ("\\\\.\\root\\subscription")
+
+instance of CommandLineEventConsumer as $Cons
+{
+    Name = "BugSecConsumer";
+    RunInteractively=false;
+    CommandLineTemplate="cmd.exe /c echo test > c:\\WMI-Mof.txt";
+};
+
+instance of __EventFilter as $Filt
+{
+    Name = "BugSecFilter";
+    EventNamespace = "root\\cimv2";
+    Query ="SELECT * FROM __InstanceCreationEvent Within 3"
+            "Where TargetInstance Isa \"Win32_Process\" "
+            "And Targetinstance.Name = \"chrome.exe\" ";
+    QueryLanguage = "WQL";
+};
+
+instance of __FilterToConsumerBinding
+{ 
+     Filter = $Filt;
+     Consumer = $Cons;
+};
